@@ -29,7 +29,7 @@ extension Analytics {
 
         private func setup() async {
 			do {
-				try await analyticsService.setup(userId: userIdentityProvider.userIdentity.uuidString)
+				try await analyticsService.setup(userId: userIdentityProvider.userIdentity)
 			}
 			catch {
 				
