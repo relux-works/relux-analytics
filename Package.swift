@@ -13,13 +13,13 @@ let package = Package(
             targets: ["ReluxAnalytics"]),
     ],
     dependencies: [
-        .package(url: "git@github.com:ivalx1s/darwin-relux.git", from: "5.0.1"),
+        .package(url: "git@github.com:relux-works/swift-relux.git", from: "5.0.1"),
     ],
     targets: [
         .target(
             name: "ReluxAnalytics",
             dependencies: [
-                .product(name: "Relux", package: "darwin-relux"),
+                .product(name: "Relux", package: "swift-relux"),
             ]
         )
     ]
