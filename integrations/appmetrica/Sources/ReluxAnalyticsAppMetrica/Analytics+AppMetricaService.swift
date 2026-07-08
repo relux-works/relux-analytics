@@ -154,12 +154,18 @@ private actor AppMetricaAggregator: Analytics.Aggregator {
     }
 
     func start() async {
-        guard activated == false else { return }
+        _ = await activateIfNeeded()
+    }
+
+    private func activateIfNeeded() async -> Bool {
+        guard activated == false else { return true }
         activated = await client.activate(apiKey: apiKey)
+        return activated
     }
 
     func identify(_ identity: Analytics.Identity) async {
-        await start()
+        guard await activateIfNeeded() else { return }
+
         await client.setUserProfileID(identity.userID)
         await report(
             name: "analytics_identified",
@@ -172,7 +178,7 @@ private actor AppMetricaAggregator: Analytics.Aggregator {
     }
 
     func track(_ event: Analytics.CollectorEvent) async {
-        await start()
+        guard await activateIfNeeded() else { return }
 
         switch event {
         case let .instant(event):
@@ -186,6 +192,8 @@ private actor AppMetricaAggregator: Analytics.Aggregator {
         name: String,
         parameters: Analytics.Parameters
     ) async {
+        guard activated else { return }
+
         await client.reportEvent(name: name, parameters: parameters.appMetricaParameters)
 
         if eventsBufferFlushPolicy == .afterEveryReport {
