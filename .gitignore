@@ -21,6 +21,9 @@ Carthage/Build
 
 .build
 .swiftpm
+.temp/
+Derived/
+DerivedData/
 .idea
 *.resolved
 *.xcworkspace
@@ -29,3 +32,4 @@ Carthage/Build
 *.xcodeproj
 .gitrelease
 Package.resolved
+.derived-data-log-*

@@ -2,48 +2,27 @@
 import PackageDescription
 
 let package = Package(
-    name: "relux-analytics",
+    name: "relux-analytics-appmetrica",
     platforms: [
         .iOS(.v16),
     ],
     products: [
-        .library(
-            name: "ReluxAnalytics",
-            targets: ["ReluxAnalytics"]
-        ),
         .library(
             name: "ReluxAnalyticsAppMetrica",
             targets: ["ReluxAnalyticsAppMetrica"]
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/relux-works/swift-relux.git", from: "9.2.0"),
+        .package(path: "../../sdk"),
         .package(url: "https://github.com/appmetrica/appmetrica-sdk-ios.git", from: "5.9.0"),
     ],
     targets: [
         .target(
-            name: "ReluxAnalytics",
-            dependencies: [
-                .product(name: "Relux", package: "swift-relux"),
-            ],
-            path: "sdk/Sources/ReluxAnalytics",
-            swiftSettings: strictSwiftSettings
-        ),
-        .target(
             name: "ReluxAnalyticsAppMetrica",
             dependencies: [
-                "ReluxAnalytics",
+                .product(name: "ReluxAnalytics", package: "sdk"),
                 .product(name: "AppMetricaCore", package: "appmetrica-sdk-ios"),
             ],
-            path: "integrations/appmetrica/Sources/ReluxAnalyticsAppMetrica",
-            swiftSettings: strictSwiftSettings
-        ),
-        .testTarget(
-            name: "ReluxAnalyticsTests",
-            dependencies: [
-                "ReluxAnalytics",
-            ],
-            path: "sdk/Tests/ReluxAnalyticsTests",
             swiftSettings: strictSwiftSettings
         ),
     ]
